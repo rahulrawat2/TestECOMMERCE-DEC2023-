@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="./output.css">
+</head>
+<body> <div class=" flex justify-center gap-4">
+       
+        <button id ="start" class=" px-4 py-2 text-blue-100 bg-blue-700 ">
+                START
+        </button>
+      
+        <button id ="stop" class=" px-4 py-2 text-blue-100 bg-blue-700 ">
+                STOP
+        </button>
+
+</div>
+<p id ="msg"></p>
+
+</body>
+</html>
+
+<script>
+
+
+
+//using setInterval
+function number(from , to ){
+let count = from ;
+
+timeridi = setInterval(() => {
+        document.write(count)
+        if (count === to ){
+        
+        
+}
+count++
+
+}, 1000);
+
+}
+
+//using nested Settimeout 
+
+function numberCounter(val1, val2){
+  
+        let counter = val1;
+       let timerid = setTimeout(function numberTimer(){
+        console.log(counter)
+        counter++
+        if (counter > val2 ){
+         clearTimeout(timerid)
+         return
+        }
+
+    
+       timerid= setTimeout(numberTimer,1000)
+        }, 1000);
+      
+      
+}
+
+// numberCounter(1 , 5 )
+
+
+
+
+let start = document.getElementById("start")
+let stop = document.getElementById("stop")
+let msg = document.getElementById("msg")
+
+
+
+start.addEventListener("click", (e)=>{
+      
+let stopbutton = setInterval(() => {
+        msg.innerHTML +="Hi There</br>"
+        console.log(msg)
+}, 1000);
+
+stop.addEventListener("click",(e)=>{
+        clearInterval(stopbutton)
+
+})
+})
+
+
+
+//The function job must return a promise object (you are in a NodeJS environment, you can use new Promise)
+//The promise must resolve itself 2 seconds after the call to job and must provide hello world in the data
+
+
+/* let promise = new Promise(function(resolve , reject){
+
+
+        setTimeout(() => {
+                resolve("Hello World")
+        }, 5000);
+
+})
+promise.then((value)=>{
+        console.log(value)
+}) */
+
+
+/*
+ques -4
+Your function must always return a promise
+If data is not a number, return a promise rejected instantly and give the data "error" (in a string)
+If data is an odd number, return a promise resolved 1 second later and give the data "odd" (in a string)
+If data is an even number, return a promise rejected 2 seconds later and give the data "even" (in a string)*/
+function output(num){
+
+let promise=new Promise((resolve,reject)=>{
+
+if(isNaN(num)){
+   setTimeout(function(){
+       reject("ERROR NOT A NUMBER")
+ 
+     })
+
+}
+
+if(num%2===0){
+   setTimeout(function(){
+       resolve("Number is even")
+
+   },2000)
+}
+if(num%2!==0)
+setTimeout(function(){
+   resolve("Number is odd")
+
+},1000)
+
+})
+return (promise.then((res)=>{
+   console.log(res)
+})
+.catch((err)=>{
+   console.log(err)
+
+}))
+
+
+}
+output("rahul");
+     
+</script>
