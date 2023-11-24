@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body class="bg-gradient-to-r from-teal-400 to-blue-500 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded shadow-md max-w-2xl w-full">
+        <h1 class="text-2xl font-semibold text-indigo-800 mb-6">User Registration</h1>
+
+        <form>
+            <!-- First Name -->
+            <div class="mb-4">
+                <label for="userFirstName" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input type="text" id="userFirstName" name="userFirstName" class="mt-1 p-2 w-full border rounded-md">
+                <div id="userFirstNameError" class="text-red-500 text-sm mt-1"></div>
+            </div>
+
+            <!-- Last Name -->
+            <div class="mb-4">
+                <label for="userLastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input type="text" id="userLastName" name="userLastName" class="mt-1 p-2 w-full border rounded-md">
+                <div id="userLastNameError" class="text-red-500 text-sm mt-1"></div>
+            </div>
+
+            <!-- Age -->
+            <div class="mb-4">
+                <label for="userAge" class="block text-sm font-medium text-gray-700">Age</label>
+                <input type="number" id="userAge" name="userAge" class="mt-1 p-2 w-full border rounded-md">
+                <div id="userAgeError" class="text-red-500 text-sm mt-1"></div>
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Gender</label>
+                <select name="userGender" id="userGender" class="mt-1 p-2 w-full border rounded-md">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="userEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="userEmail" name="userEmail" class="mt-1 p-2 w-full border rounded-md">
+                <div id="userEmailError" class="text-red-500 text-sm mt-1"></div>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="mb-4">
+                <label for="userDob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                <input type="date" id="userDob" name="userDob" class="mt-1 p-2 w-full border rounded-md">
+                <div id="userDobError" class="text-red-500 text-sm mt-1"></div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="mb-4">
+                <label for="userPhoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                <input type="tel" id="userPhoneNumber" name="userPhoneNumber"
+                    class="mt-1 p-2 w-full border rounded-md">
+                <div id="userPhoneNumberError" class="text-red-500 text-sm mt-1"></div>
+            </div>
+
+            <!-- Current Address -->
+            <div class="mb-4">
+                <label for="userCurrentAddress" class="block text-sm font-medium text-gray-700">Current Address</label>
+                <textarea id="userCurrentAddress" name="userCurrentAddress"
+                    class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <div id="userCurrentAddressError" class="text-red-500 text-sm mt-1"></div>
+            </div>
+             <!-- Checkbox for Same as Permanent Address -->
+             <div class="mb-4 flex items-center">
+                <input type="checkbox" id="sameAsPermanent" name="sameAsPermanent" class="mr-2">
+                <label for="sameAsPermanent" class="text-sm text-gray-700">Same as Permanent Address</label>
+            </div>
+
+            <!-- Permanent Address -->
+            <div class="mb-4">
+                <label for="userPermanentAddress" class="block text-sm font-medium text-gray-700">Permanent Address</label>
+                <textarea id="userPermanentAddress" name="userPermanentAddress"
+                    class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <div id="userPermanentAddressError" class="text-red-500 text-sm mt-1"></div>
+            </div>
+            
+
+            <!-- Blood Group -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Blood Group</label>
+                <select name="userBloodGroup" id="userBloodGroup" class="mt-1 p-2 w-full border rounded-md">
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
+            </div>
+
+           
+
+            <!-- User Type -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">User Type</label>
+                <select name="userType" id="userType" class="mt-1 p-2 w-full border rounded-md">
+                    <option value="admin">Admin</option>
+                    <option value="regular">Regular User</option>
+                </select>
+            </div>
+
+            <!-- Choose Profile Picture -->
+            <label for="userProfilePicture">Choose a profile picture:</label>
+            <input type="file" id="userProfilePicture" name="userProfilePicture" accept=".jpg, .jpeg, .png, .gif">
+
+            <!-- Submit Button -->
+            <div class="mt-6">
+                <button type="submit" id="submitBtn"
+                    class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Register User</button>
+            </div>
+        </form>
+    </div>
+    <script src="userlist.js"></script>
+</body>
+
+</html>
