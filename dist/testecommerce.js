@@ -1,0 +1,197 @@
+(function () {
+
+        
+
+        productInfo={
+               
+                 productInfo:JSON.parse(localStorage.getItem('products') || []),
+                errorMessage:document.getElementById("js-fetchErrorStatus"),
+                listingContainer:document.getElementById("js-listingContainer"),
+                selectCategory:document.getElementById("category"),
+                cartIcon:document.getElementById("cartIcon"),
+                cartinfo:JSON.parse(localStorage.getItem('Addedtocart') || []),
+   
+               
+                
+
+
+
+                categories:async function(){
+                        try{
+                                const response = await fetch('https://dummyjson.com/products/categories')
+                                if (response.ok){
+                                        let categoriesOptions = await response.json()
+                                      
+                                        categoriesOptions.forEach(catergory => {
+                                                let options = document.createElement('option')
+                                                options.innerText = catergory
+                                                this.selectCategory.appendChild(options)
+                                                
+                                        });
+                                }
+
+                        else { 
+                                throw new Error(`something Went Wrong : ${response.status} `)
+                                }}
+
+                        catch(error){
+                                this.errorMessage.innerText = error.message;
+                        } 
+                        
+                },
+
+                fetchAndStoreInfo:async function(){
+                        try{
+                                const response = await fetch("https://dummyjson.com/products") 
+                                if(response.ok){
+                                        const fetchProductsData = await response.json()
+                                  
+                                        productsData = fetchProductsData.products
+                            
+                                        localStorage.setItem("products", JSON.stringify(productsData))
+                                        this.displayProducts(this.productInfo)
+
+                                }
+                                else{
+                                        throw new Error(`Something Went Wrong : ${response.status}`)
+                                }
+                                
+                        
+                        }
+                        catch(error){
+                               this.errorMessage.innerText = error.message;
+
+                        }
+                },
+                // Function to Display the Api Data 
+                displayProducts:function(items){
+                      
+
+                        this.listingContainer.innerHTML = "";
+          
+
+                        items.forEach((productData)=>{
+                                //creating elements and setting attributes
+                                let productCard = document.createElement("li")
+                                productCard.setAttribute("class","bg-white p-4 rounded-md shadow-md")
+                                let productImage = document.createElement("img")
+                                productImage.setAttribute("class","w-full h-48 object-cover mb-4")
+                                productImage.setAttribute("src",`${productData.images[0]}`)
+                                let productId = document.createElement("span")
+                                productId.setAttribute("class","text-sm font-bold")
+
+                                let title = document.createElement("h2")
+                                title.setAttribute("class","text-lg font-semibold mb-2")
+                                let description = document.createElement("p")
+                                description.setAttribute("class","text-gray-600 mb-4")
+                                //add button Container
+                                let addButtondDiv = document.createElement("div")
+                                addButtondDiv.setAttribute("class","flex items-center justify-between")
+                                let Productprice = document.createElement("span")
+                                Productprice.setAttribute("class","text-xl font-bold text-gray-700")
+                                let addCartBtn = document.createElement("button")
+                                addCartBtn.setAttribute("class","bg-blue-500 text-white py-2 px-4 rounded-md addcart")
+                        
+                                // addCartBtn.setAttribute("class", "")
+
+
+                                //values for the elements
+                                title.innerText = ` ${productData.title.slice(0,15)}`
+                                description.innerText=` ${productData.description.slice(0,60)} ...`
+                                Productprice.innerText = ` $ ${productData.price}`
+                                addCartBtn.innerText ="Buy Now"
+                                productId.innerText= `Prod.Id:${productData.id}`
+                                
+                
+
+                                //append
+                                addButtondDiv.append(Productprice,addCartBtn,productId)
+                                productCard.append(productImage,title,description,addButtondDiv)
+                                this.listingContainer.appendChild(productCard)
+
+                
+                                
+
+
+                                productCard.addEventListener("click",(e)=>{
+                                        let clickedPosition = e.target
+                                        
+                                        if(clickedPosition.classList.contains("addcart")){
+                                                clickedPosition = productData.id
+                                                this.addtocart(clickedPosition)
+                                        
+                                        }
+             
+                                     })
+
+                        })
+
+                },
+
+                filterProducts: async function(selectedFilterProduct){
+                        
+                        if(selectedFilterProduct === "all"){
+                                this.displayProducts(this.productInfo)
+                        
+                        }
+                        else{
+                                try{
+                                        let response = await fetch(`https://dummyjson.com/products/category/${selectedFilterProduct}`);
+                                        if(response.ok){
+                                              
+                                        let selectedCategory = await response.json()
+                                       
+                                        this.displayProducts (selectedCategory.products)
+                                  
+                                      
+                                        }
+                                        else { 
+                                        throw new Error(`something Went Wrong : ${response.status} `)
+                                        }}
+
+                                catch(error){
+                                        this.errorMessage.innerText = error.message;
+                                }    
+                }},
+                addtocart:async function(ProdId){
+                    
+                                try{
+                                        let response = await fetch(`https://dummyjson.com/products/${ProdId}`);
+                                        if(response.ok){
+                                              
+                                        let productInCart = await response.json()
+                                        if(productInCart){
+                                                this.cartinfo.push(productInCart)
+            
+
+                                        }
+                                   
+                                        localStorage.setItem("Addedtocart", JSON.stringify(this.cartinfo))
+            
+                                        }
+                                        else { 
+                                        throw new Error(`something Went Wrong : ${response.status} `)
+                                        }}
+
+                                catch(error){
+                                        this.errorMessage.innerText = error.message;
+                                }    
+                },
+                bind:function(){
+                        this.fetchAndStoreInfo()
+                        this.categories()
+                        this.selectCategory.addEventListener('change' ,(e)=>{
+                               let selectedCategories = e.target.value;
+                               this.filterProducts(selectedCategories)
+                        })
+                        this.cartIcon.addEventListener("click",(e)=>{
+                                e.parentElement.target = window.location.href = `cartpage.html`
+                               
+                        })
+                },
+                
+
+        },
+        productInfo.bind()
+
+})();
