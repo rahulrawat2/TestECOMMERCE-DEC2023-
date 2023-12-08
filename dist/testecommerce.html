@@ -1,35 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Listing Page</title>
   <link href="./output.css" rel="stylesheet">
-  
+
 
 </head>
+
 <body class="bg-gray-100 font-sans">
 
   <!-- Header -->
   <header class="bg-gray-800 text-white p-4">
     <div class="container mx-auto flex items-center justify-between">
-      <h1 class="text-2xl font-semibold">Ekart</h1>
+      <span><img class="h-8 w-24" src="https://ekartlogistics.com/assets/images/ekWhiteLogo.png" alt="logo"></span>
+      <!-- <h1 class="text-2xl cursor-pointer font-semibold"></h1> -->
+      <form id="form">
+        <label for="searchInput"></label>
+        <input type="search" name="search" id="searchInput" class="w-96 px-4 py-2 text-black border rounded-3xl"
+          placeholder="Search Here...">
+
+      </form>
       <nav>
-        <ul class="flex space-x-4">
-          <li><a href="#" class="hover:text-gray-300">Home</a></li>
-          <li><a href="#" class="hover:text-gray-300">Categories</a></li>
-          <li id="cartIcon"><a href="#" class="hover:text-gray-300">
-            <i class="fa" style="font-size:24px">&#xf07a;</i>
-              <span></span>
+        <ul class="flex space-x-4 text-center justify-center items-center">
+
+          <li><svg id="cartIcon" class="w-14 h-14 hover:text-gray-300 cursor-pointer" xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor" stroke="none" viewBox="0 0 24 24">
+              <path
+                d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921z">
+              </path>
+              <circle cx="10.5" cy="19.5" r="1.5"></circle>
+              <circle cx="17.5" cy="19.5" r="1.5"></circle>
+            </svg></li>
+          <!-- <span class="text-lg text-white">&#x1F6D2;</span> -->
           </a></li>
-        
+
         </ul>
       </nav>
     </div>
   </header>
 
   <div>
-    <p id="js-fetchErrorStatus"></p>  
+    <p id="js-fetchErrorStatus"></p>
   </div>
 
   <!-- Main Content -->
@@ -39,24 +53,24 @@
       <h2 class="text-lg font-semibold mb-4">Filter by Category</h2>
       <select id="category" class="w-full p-2 border rounded-md mb-4">
         <option value="all">All Categories</option>
-       
+
       </select>
 
 
     </aside>
 
     <!-- Product Listing -->
-<main class="md:w-3/4">
-  <ul id="js-listingContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <!-- Product Card 1 -->
-  </ul>
-</main>
+    <main class="md:w-3/4">
+      <ul id="js-listingContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Product Card 1 -->
+      </ul>
+    </main>
   </div>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-white p-4 mt-8">
     <div class="container mx-auto text-center">
-      <p>&copy; 2023 My Shop. All rights reserved.</p>
+      <p>&copy; 2023 Ekart. All rights reserved.</p>
     </div>
   </footer>
 
@@ -64,4 +78,3 @@
 <script src="./testecommerce.js"></script>
 
 </html>
-

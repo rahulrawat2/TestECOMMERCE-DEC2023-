@@ -4,17 +4,37 @@
 
         productInfo={
                
-                 productInfo:JSON.parse(localStorage.getItem('products') || []),
+                productInfo:JSON.parse(localStorage.getItem('products') || [] ),
                 errorMessage:document.getElementById("js-fetchErrorStatus"),
                 listingContainer:document.getElementById("js-listingContainer"),
                 selectCategory:document.getElementById("category"),
                 cartIcon:document.getElementById("cartIcon"),
-                cartinfo:JSON.parse(localStorage.getItem('Addedtocart') || []),
-   
-               
-                
-
-
+                searchproduct: async function (input) {
+                        if (input === "") {
+                          console.log(input);
+                          this.displaylist(this.Productlist);
+                        } else {
+                          let response = await fetch(
+                            `https://dummyjson.com/products/search?q=${input}`
+                          );
+                  
+                          if (response.ok) {
+                            let apiJsonData = await response.json();
+                            console.log(apiJsonData);
+                            this.displayProducts(apiJsonData.products);
+                          }
+                        }
+                      },
+                      debounce: function (callBack, delay) {
+                        console.log(delay);
+                        let debounce = null;
+                        return (...args) => {
+                          clearTimeout(debounce);
+                          debounce = setTimeout(() => {
+                            callBack.apply(this, args);
+                          }, delay);
+                        };
+                      },
 
                 categories:async function(){
                         try{
@@ -46,9 +66,9 @@
                                 if(response.ok){
                                         const fetchProductsData = await response.json()
                                   
-                                        productsData = fetchProductsData.products
+                                        productsData = console.log(fetchProductsData.products)
                             
-                                        localStorage.setItem("products", JSON.stringify(productsData))
+                                        // localStorage.setItem("products", JSON.stringify(productsData))
                                         this.displayProducts(this.productInfo)
 
                                 }
@@ -91,6 +111,9 @@
                                 Productprice.setAttribute("class","text-xl font-bold text-gray-700")
                                 let addCartBtn = document.createElement("button")
                                 addCartBtn.setAttribute("class","bg-blue-500 text-white py-2 px-4 rounded-md addcart")
+
+
+
                         
                                 // addCartBtn.setAttribute("class", "")
 
@@ -100,7 +123,7 @@
                                 description.innerText=` ${productData.description.slice(0,60)} ...`
                                 Productprice.innerText = ` $ ${productData.price}`
                                 addCartBtn.innerText ="Buy Now"
-                                productId.innerText= `Prod.Id:${productData.id}`
+                                // productId.innerText= `Prod.Id:${productData.id}`
                                 
                 
 
@@ -108,16 +131,12 @@
                                 addButtondDiv.append(Productprice,addCartBtn,productId)
                                 productCard.append(productImage,title,description,addButtondDiv)
                                 this.listingContainer.appendChild(productCard)
-
-                
-                                
-
-
                                 productCard.addEventListener("click",(e)=>{
                                         let clickedPosition = e.target
                                         
                                         if(clickedPosition.classList.contains("addcart")){
                                                 clickedPosition = productData.id
+                                                console.log(clickedPosition)
                                                 this.addtocart(clickedPosition)
                                         
                                         }
@@ -142,6 +161,7 @@
                                         let selectedCategory = await response.json()
                                        
                                         this.displayProducts (selectedCategory.products)
+        
                                   
                                       
                                         }
@@ -153,30 +173,36 @@
                                         this.errorMessage.innerText = error.message;
                                 }    
                 }},
-                addtocart:async function(ProdId){
+                addtocart: async function (ProdId) {
+                        let selectedProd =this.productInfo.find(product => product.id === ProdId);
+                        console.log(selectedProd)
+                        //  array in localStorage
+                        this.cartinfo = JSON.parse(localStorage.getItem("addedtocart")) || [];
                     
-                                try{
-                                        let response = await fetch(`https://dummyjson.com/products/${ProdId}`);
-                                        if(response.ok){
-                                              
-                                        let productInCart = await response.json()
-                                        if(productInCart){
-                                                this.cartinfo.push(productInCart)
-            
+                
+                        const existingProductIndex = this.cartinfo.findIndex(item => item.id === selectedProd.id);
+                    
+                        if (existingProductIndex === -1) {
+                            // If not present, push it to the cartinfo 
+                           selectedProd.count=1;
+                    
+                            this.cartinfo.push(selectedProd);
+                    
+                            // Save the  localStorage
+                            localStorage.setItem("addedtocart", JSON.stringify(this.cartinfo));
 
-                                        }
-                                   
-                                        localStorage.setItem("Addedtocart", JSON.stringify(this.cartinfo))
-            
-                                        }
-                                        else { 
-                                        throw new Error(`something Went Wrong : ${response.status} `)
-                                        }}
+                        } else {
+                            // , increment the count if already in cart
+                            this.cartinfo[existingProductIndex].count++;
 
-                                catch(error){
-                                        this.errorMessage.innerText = error.message;
-                                }    
-                },
+                    
+                            // Save the updated cart array into localStorage
+                            localStorage.setItem("addedtocart", JSON.stringify(this.cartinfo));
+
+                        }
+                    },
+
+                    
                 bind:function(){
                         this.fetchAndStoreInfo()
                         this.categories()
@@ -188,6 +214,12 @@
                                 e.parentElement.target = window.location.href = `cartpage.html`
                                
                         })
+                        let debouncedData = this.debounce(this.searchproduct, 1000);
+                        let search = document.getElementById("searchInput");
+                        search.addEventListener("input", (ev) => {
+                          let value = ev.target.value.trim();
+                          console.log(value);
+                          debouncedData(value)});
                 },
                 
 
